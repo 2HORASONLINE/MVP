@@ -1,13 +1,18 @@
 /**
  * 2H.O — Backend de Apps Script para el brief y la solicitud de llamada.
  *
+ * Este script NO sirve el sitio (index.html vive en GitHub/GitHub Pages).
+ * Solo funciona como API: recibe peticiones POST en JSON y responde JSON.
+ *
  * Publicación:
- * 1) En el editor de Apps Script, agrega este archivo como Code.gs y el
- *    contenido de index.html como archivo HTML llamado "index".
+ * 1) En script.google.com crea un proyecto y pega este archivo como Code.gs.
  * 2) Implementar > Nueva implementación > Aplicación web.
- *    - Ejecutar como: Yo (el propietario del script).
+ *    - Ejecutar como: Yo (el propietario del script, dueño del correo
+ *      que aparece como TEAM_EMAIL).
  *    - Quién tiene acceso: Cualquier usuario.
- * 3) La primera ejecución crea automáticamente una hoja de cálculo
+ * 3) Copia la URL /exec resultante y pégala en index.html, en
+ *    CONFIG.appsScriptUrl.
+ * 4) La primera ejecución crea automáticamente una hoja de cálculo
  *    "2H.O — Leads piloto" (guarda su ID en Propiedades del script) donde
  *    quedan registrados los inicios y los envíos.
  */
@@ -25,15 +30,32 @@ const NEED_LABELS = {
   Validar: 'Validar (recoger interés)'
 };
 
-/* ================= Web app entry point ================= */
+/* ================= Web app entry point (API JSON, sin frontend) ================= */
 
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('2H.O — Tu web lista en 24-48h')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+  return jsonOutput_({ ok: true, service: '2H.O backend', usage: 'POST { action: "beginLead"|"submitLead", payload: {...} }' });
 }
 
-/* ================= Public RPC (google.script.run) ================= */
+function doPost(e) {
+  try {
+    const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    const action = body.action;
+    const payload = body.payload || {};
+
+    if (action === 'beginLead') return jsonOutput_(beginLead(payload));
+    if (action === 'submitLead') return jsonOutput_(submitLead(payload));
+    return jsonOutput_({ ok: false, message: 'Acción no reconocida.' });
+  } catch (err) {
+    console.error('doPost: ' + err);
+    return jsonOutput_({ ok: false, message: 'No se pudo procesar la solicitud.' });
+  }
+}
+
+function jsonOutput_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/* ================= Acciones (llamadas desde doPost) ================= */
 
 function beginLead(payload) {
   try {
