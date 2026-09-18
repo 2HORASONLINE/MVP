@@ -848,11 +848,17 @@ dialog .btn{margin-top:16px}
 /* ============================================================
    CONFIGURACIÓN
    - whatsappNumber: número en formato internacional sin '+'.
-   - Publicar este HTML como Index dentro de Apps Script.
-     google.script.run confirma el envío desde la URL /exec.
-     Abierto como archivo local no envía datos al servidor.
+   - appsScriptUrl: URL /exec de la implementación de Apps Script
+     (Code.gs) publicada como aplicación web ("Ejecutar como: yo",
+     acceso "Cualquiera"). Este archivo se sirve desde GitHub Pages
+     (o donde sea) y solo usa Apps Script como backend vía fetch.
+     Si se deja vacío, el formulario queda en modo local: no envía
+     nada a ningún servidor.
    ============================================================ */
-const CONFIG = { whatsappNumber: '573173089057' };
+const CONFIG = {
+  whatsappNumber: '573173089057',
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbxR_iqDbAWLfXWnkt7BqWo3BbJovYfvPvjxbjExXcbIaoM9uMqMoHRbNlo618xdjEXt/exec'
+};
 const INSTAGRAM_PROFILE = 'https://www.instagram.com/2horas.online?stkn=NHAxZTFicjk5YTdj';
 const INSTAGRAM_REEL_URL = 'https://www.instagram.com/p/DYneq_LxW-l/';
 
@@ -1025,12 +1031,22 @@ form.addEventListener('input', saveDraft);
 form.addEventListener('change', saveDraft);
 restoreDraft();
 
-/* ---------- Confirmed Google Apps Script submission ---------- */
-const cloudConnected=Boolean(window.google?.script?.run);
+/* ---------- Confirmed backend submission (Apps Script vía fetch) ---------- */
+const cloudConnected=Boolean(CONFIG.appsScriptUrl);
 let cloudStart=null, sending=false;
 const leadId=(()=>{try{let id=sessionStorage.getItem('2ho_pilot_lead');if(!id){id=participantId;sessionStorage.setItem('2ho_pilot_lead',id);}return id;}catch{return participantId;}})();
 const attribution=(()=>{try{const saved=sessionStorage.getItem('2ho_pilot_source');if(saved)return JSON.parse(saved);const p=new URLSearchParams(location.search),source=window.PILOT_ATTRIBUTION?.source||p.get('utm_source')||'directo_desconocido';const a={source:['instagram','grupo_emprendedores','otro'].includes(source)?source:'directo_desconocido',medium:window.PILOT_ATTRIBUTION?.medium||p.get('utm_medium')||'sin_etiqueta',campaign:window.PILOT_ATTRIBUTION?.campaign||p.get('utm_campaign')||'sin_etiqueta'};sessionStorage.setItem('2ho_pilot_source',JSON.stringify(a));return a;}catch{return {source:'directo_desconocido'};}})();
-function serverCall(method,payload){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('No pudimos confirmar el envío. Reintenta desde esta pestaña o contacta al equipo.')),35000);window.google.script.run.withSuccessHandler(result=>{clearTimeout(timer);resolve(result);}).withFailureHandler(()=>{clearTimeout(timer);reject(new Error('No se pudo completar la conexión con Google. Reintenta o escríbenos por WhatsApp.'));})[method](payload);});}
+function serverCall(action,payload){
+  return new Promise((resolve,reject)=>{
+    const controller=new AbortController();
+    const timer=setTimeout(()=>{controller.abort();reject(new Error('No pudimos confirmar el envío. Reintenta desde esta pestaña o contacta al equipo.'));},35000);
+    // text/plain evita el preflight CORS; Code.gs lee el JSON desde e.postData.contents.
+    fetch(CONFIG.appsScriptUrl,{method:'POST',body:JSON.stringify({action,payload})})
+      .then(res=>{if(!res.ok)throw new Error('bad-status');return res.json();})
+      .then(result=>{clearTimeout(timer);resolve(result);})
+      .catch(err=>{clearTimeout(timer);if(err.name!=='AbortError')reject(new Error('No se pudo completar la conexión con el servidor. Reintenta o escríbenos por WhatsApp.'));});
+  });
+}
 function ensureCloudStart(){if(!cloudConnected)return Promise.resolve({ok:false});if(!cloudStart)cloudStart=serverCall('beginLead',{leadId,...attribution}).then(r=>{if(!r?.ok)throw new Error('No se pudo registrar el inicio. Reintenta en unos momentos.');return r;}).catch(e=>{cloudStart=null;throw e;});return cloudStart;}
 
 /* ---------- Confeti al completar (fun!) ---------- */
@@ -1114,7 +1130,7 @@ if(cloudConnected){
 }else{
   $('#consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi brief, pero no lo envía automáticamente. *';
   $('#call-consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi solicitud, pero no la envía automáticamente. *';
-  $('#privacy-copy').textContent='En este archivo local no se envían tus datos a servidores. El borrador de negocio se guarda en esta pestaña, sin datos de contacto. El envío automático se activa al publicar la página en Apps Script según la guía entregada.';
+  $('#privacy-copy').textContent='En este archivo local no se envían tus datos a servidores. El borrador de negocio se guarda en esta pestaña, sin datos de contacto. El envío automático se activa al configurar CONFIG.appsScriptUrl con la URL del backend de Apps Script, según la guía entregada.';
 }
 
 /* ---------- Download brief ---------- */
