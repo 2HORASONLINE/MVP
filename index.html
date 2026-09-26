@@ -1083,12 +1083,10 @@ $$('.counter').forEach(el => counterIO.observe(el));
 
 /* ---------- Popup del Experimento 4 (formulario v2 + 15% dto.) ---------- */
 const popup = $('#brief-popup');
-const POPUP_SEEN_KEY = '2ho_exp4_popup_seen';
 function openPopup(){
   if(!popup.open) popup.showModal();
   trackExp4('popup_shown');
   ensureCloudStartExp4().catch(()=>{});
-  try{ localStorage.setItem(POPUP_SEEN_KEY,'1'); }catch{}
 }
 function closePopup(reason){
   if(popup.open) popup.close();
@@ -1101,9 +1099,6 @@ $$('[data-open-popup]').forEach(el => el.addEventListener('click', e => { e.prev
 $$('a[href="#brief"]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openPopup(); }));
 $$('[data-route]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); track('cta_clicked', { source:'route', need:el.dataset.route }); openPopup(); }));
 (function initPopupTrigger(){
-  let alreadySeen = false;
-  try{ alreadySeen = Boolean(localStorage.getItem(POPUP_SEEN_KEY)); }catch{}
-  if(alreadySeen) return;
   const section1 = document.querySelector('#problema') || document.querySelector('.hero');
   if(!section1 || typeof IntersectionObserver === 'undefined'){ setTimeout(() => { if(!completed) openPopup(); }, 0); return; }
   const popupIO = new IntersectionObserver(entries => {
