@@ -44,6 +44,9 @@ function doPost(e) {
 
     if (action === 'beginLead') return jsonOutput_(beginLead(payload));
     if (action === 'submitLead') return jsonOutput_(submitLead(payload));
+    if (action === 'beginLeadExp4') return jsonOutput_(beginLeadExp4(payload));
+    if (action === 'pingStepExp4') return jsonOutput_(pingStepExp4(payload));
+    if (action === 'submitLeadExp4') return jsonOutput_(submitLeadExp4(payload));
     return jsonOutput_({ ok: false, message: 'Acción no reconocida.' });
   } catch (err) {
     console.error('doPost: ' + err);
@@ -122,6 +125,162 @@ function submitLead(payload) {
     console.error('submitLead: ' + err);
     return { ok: false, message: 'Ocurrió un error al procesar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.' };
   }
+}
+
+/* ================= Experimento 4 — Formulario v2 (popup, 15% dto.) ================= */
+
+const EXP4_SHEET_NAME = 'Exp4_Seguimiento';
+const EXP4_HEADERS = ['lead_id','inicio_utc','fuente','medio','campana','ultima_pregunta_vista','completo','negocio','descripcion_negocio','categoria','objetivo_principal','red_social_o_maps','manual_marca','manual_marca_archivo','whatsapp','claridad_formulario','fecha_completado_utc','brief_util','fecha_envio_vista_previa','notas'];
+
+function getExp4Sheet_(){
+  return getSheetByName_(EXP4_SHEET_NAME, EXP4_HEADERS);
+}
+function exp4Index_(){
+  const map = {};
+  EXP4_HEADERS.forEach(function(key, i){ map[key] = i; });
+  return map;
+}
+function exp4FindRow_(sheet, leadId){
+  const data = sheet.getDataRange().getValues();
+  const idx = exp4Index_();
+  for (let r = 1; r < data.length; r++) {
+    if (data[r][idx.lead_id] === leadId) return r + 1;
+  }
+  return -1;
+}
+function exp4SafeCell_(value, limit){
+  if (value === undefined || value === null) return '';
+  return String(value).trim().slice(0, limit || 300);
+}
+
+function beginLeadExp4(payload){
+  try {
+    payload = payload || {};
+    const leadId = exp4SafeCell_(payload.leadId, 100);
+    if (!/^[a-zA-Z0-9-]{6,100}$/.test(leadId)) return { ok: false };
+    const sheet = getExp4Sheet_();
+    if (exp4FindRow_(sheet, leadId) !== -1) return { ok: true };
+    const idx = exp4Index_();
+    const row = new Array(EXP4_HEADERS.length).fill('');
+    row[idx.lead_id] = leadId;
+    row[idx.inicio_utc] = new Date().toISOString();
+    row[idx.fuente] = exp4SafeCell_(payload.source, 80) || 'directo_desconocido';
+    row[idx.medio] = exp4SafeCell_(payload.medium, 60) || 'sin_etiqueta';
+    row[idx.campana] = exp4SafeCell_(payload.campaign, 80) || 'sin_etiqueta';
+    row[idx.ultima_pregunta_vista] = 1;
+    row[idx.completo] = 'no';
+    sheet.appendRow(row);
+    return { ok: true };
+  } catch (err) {
+    console.error('beginLeadExp4: ' + err);
+    return { ok: false };
+  }
+}
+
+function pingStepExp4(payload){
+  try {
+    payload = payload || {};
+    const leadId = exp4SafeCell_(payload.leadId, 100);
+    const step = Number(payload.step);
+    if (!leadId || !isFinite(step)) return { ok: false };
+    const sheet = getExp4Sheet_();
+    const r = exp4FindRow_(sheet, leadId);
+    if (r === -1) return { ok: false };
+    const idx = exp4Index_();
+    sheet.getRange(r, idx.ultima_pregunta_vista + 1).setValue(step);
+    return { ok: true };
+  } catch (err) {
+    console.error('pingStepExp4: ' + err);
+    return { ok: false };
+  }
+}
+
+function submitLeadExp4(payload){
+  try {
+    payload = payload || {};
+    if (payload.consent !== true || !/^[a-zA-Z0-9-]{6,100}$/.test(payload.requestId || ''))
+      return { ok: false, message: 'Solicitud inválida. Revisa el formulario.' };
+    const v = payload.values || {};
+    const limits = { business: 100, businessDescription: 400, category: 60, objective: 80, socialLink: 200, brandManual: 60, brandManualLink: 300, phone: 25, clarity: 2 };
+    const clean = {};
+    for (const key in limits) {
+      if (v[key] !== undefined && typeof v[key] !== 'string') return { ok: false, message: 'Formato no válido.' };
+      clean[key] = String(v[key] || '').trim().slice(0, limits[key]);
+    }
+    const required = ['business', 'businessDescription', 'category', 'objective', 'brandManual', 'phone'];
+    for (const key of required) { if (!clean[key]) return { ok: false, message: 'Completa los campos obligatorios.' }; }
+    if (!/^\+?[0-9\s-]{7,25}$/.test(clean.phone)) return { ok: false, message: 'Introduce un WhatsApp válido.' };
+
+    // Evita procesar dos veces la misma solicitud (reintentos de red).
+    const cache = CacheService.getScriptCache();
+    const requestId = String(payload.requestId || '').trim();
+    const cacheKey = 'exp4req_' + requestId;
+    if (requestId && cache.get(cacheKey)) return { ok: true, deduped: true };
+
+    const fileName = exp4SafeCell_(v.brandManualFileName, 150);
+    const fileType = exp4SafeCell_(v.brandManualFileType, 100);
+    const fileData = typeof v.brandManualFileData === 'string' ? v.brandManualFileData : '';
+    if (fileData.length > 11 * 1024 * 1024) return { ok: false, message: 'El archivo adjunto es demasiado grande.' };
+    let attachments = [];
+    let manualNote = 'No';
+    if (fileData) {
+      const bytes = Utilities.base64Decode(fileData);
+      attachments.push(Utilities.newBlob(bytes, fileType || 'application/octet-stream', fileName || 'manual-marca'));
+      manualNote = 'Sí (archivo adjunto: ' + (fileName || 'archivo') + ')';
+    } else if (clean.brandManualLink) {
+      manualNote = 'Sí (link: ' + clean.brandManualLink + ')';
+    } else if (clean.brandManual.indexOf('Sí') === 0) {
+      manualNote = 'Sí (sin archivo)';
+    }
+
+    const leadId = exp4SafeCell_(payload.leadId, 100);
+    const sheet = getExp4Sheet_();
+    let r = leadId ? exp4FindRow_(sheet, leadId) : -1;
+    const idx = exp4Index_();
+    if (r === -1) {
+      const row = new Array(EXP4_HEADERS.length).fill('');
+      row[idx.lead_id] = leadId || Utilities.getUuid();
+      row[idx.inicio_utc] = new Date().toISOString();
+      sheet.appendRow(row);
+      r = sheet.getLastRow();
+    }
+    sheet.getRange(r, idx.negocio + 1).setValue(clean.business);
+    sheet.getRange(r, idx.descripcion_negocio + 1).setValue(clean.businessDescription);
+    sheet.getRange(r, idx.categoria + 1).setValue(clean.category);
+    sheet.getRange(r, idx.objetivo_principal + 1).setValue(clean.objective);
+    sheet.getRange(r, idx.red_social_o_maps + 1).setValue(clean.socialLink);
+    sheet.getRange(r, idx.manual_marca + 1).setValue(clean.brandManual);
+    sheet.getRange(r, idx.manual_marca_archivo + 1).setValue(manualNote);
+    sheet.getRange(r, idx.whatsapp + 1).setValue(clean.phone);
+    sheet.getRange(r, idx.claridad_formulario + 1).setValue(clean.clarity || '');
+    sheet.getRange(r, idx.completo + 1).setValue('si');
+    sheet.getRange(r, idx.fecha_completado_utc + 1).setValue(new Date().toISOString());
+
+    sendExp4TeamNotification_(clean, manualNote, payload.requestId, attachments);
+    if (requestId) cache.put(cacheKey, '1', 21600); // 6 horas
+    return { ok: true };
+  } catch (err) {
+    console.error('submitLeadExp4: ' + err);
+    return { ok: false, message: 'No se pudo confirmar el envío. Revisa los datos o contacta al equipo por WhatsApp para verificar si llegó.' };
+  }
+}
+
+function sendExp4TeamNotification_(clean, manualNote, requestId, attachments){
+  const labels = { business: 'Negocio', businessDescription: 'Qué hace el negocio', category: 'Categoría', objective: 'Objetivo principal', socialLink: 'Instagram / Facebook / Maps', phone: 'WhatsApp', clarity: 'Claridad del formulario (1-5)' };
+  const rows = Object.keys(labels).map(function(key){ return [labels[key], clean[key] || 'No indicado']; });
+  rows.push(['Manual de marca', manualNote]);
+  const bodyRows = rows
+    .map(([label, value]) => '<tr><td style="padding:6px 12px 6px 0;color:#6b6f5c;white-space:nowrap">' + escapeHtml_(label) + '</td><td style="padding:6px 0;font-weight:600">' + escapeHtml_(value || '—') + '</td></tr>')
+    .join('');
+  const html =
+    '<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#12130e">' +
+    '<p>Nuevo brief con descuento del 15% reservado.</p>' +
+    '<table cellpadding="0" cellspacing="0">' + bodyRows + '</table>' +
+    '<p style="margin-top:16px;font-size:12px;color:#6b6f5c">Referencia: ' + escapeHtml_(requestId) + '</p>' +
+    '</div>';
+  const mailOptions = { to: TEAM_EMAIL, subject: 'Nuevo brief (Exp. 4 — 15% dto.) — 2HO', htmlBody: html, name: '2HO · Experimento 4' };
+  if (attachments && attachments.length) mailOptions.attachments = attachments;
+  MailApp.sendEmail(mailOptions);
 }
 
 /* ================= Sheet helpers ================= */

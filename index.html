@@ -15,6 +15,9 @@
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '1127921126333081'); fbq('track', 'PageView');</script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1127921126333081&ev=PageView&noscript=1"/></noscript>
 <!-- End Facebook Pixel Code -->
+<!-- Microsoft Clarity — Exp. 4: grabaciones y mapas de calor del popup.
+     Reemplaza XXXXXXXXXX por tu ID de proyecto de clarity.microsoft.com antes de publicar. -->
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","XXXXXXXXXX");</script>
 <style>
 /* ===================================================================
    2H.O — Landing.
@@ -193,7 +196,7 @@ h1 em{font-style:normal;color:var(--lime)}
 .route button{display:flex;align-items:center;justify-content:space-between;border:0;border-top:1px solid #3a4a24;background:none;color:var(--lime);text-align:left;padding:16px 0 0;margin-top:16px;font-size:13px;font-weight:600}
 .route button .icon{transition:transform .2s}
 .route button:hover .icon{transform:translateX(3px)}
-.notice{margin-top:26px;font-size:12.5px;color:#43551e;max-width:820px}
+.notice{margin-top:26px;font-size:12.5px;line-height:1.6;color:#43551e;max-width:820px}
 
 /* ===== 03 · Valor / fórmula — carbón limpio, tarjeta crema ===== */
 .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
@@ -226,17 +229,19 @@ h1 em{font-style:normal;color:var(--lime)}
 .ig-links{display:flex;flex-wrap:wrap;gap:15px;margin-top:16px;font-size:12px;color:var(--lime)}
 
 /* ===== 04 · Proceso — carbón, línea de tiempo con insignias lima ===== */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:70px;position:relative}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;margin-top:70px;position:relative}
 .steps:before{content:'';position:absolute;top:26px;left:26px;right:26px;height:2px;background:repeating-linear-gradient(90deg,var(--line-soft) 0 10px,transparent 10px 18px)}
-.step{position:relative;padding-top:16px}
-.step-badge{position:relative;z-index:1;width:52px;height:52px;border-radius:50%;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center;font:700 19px var(--font-display);margin-bottom:22px;box-shadow:0 0 0 6px var(--bg);transition:transform .3s ease}
+.step{position:relative;padding-top:16px;border-radius:20px;transition:transform .3s ease,background .3s ease}
+.step:hover{transform:translateY(-6px)}
+.chapter-crema .step:hover{background:#0000000a}
+.step-badge{position:relative;z-index:1;width:52px;height:52px;border-radius:50%;background:var(--lime);color:var(--lime-ink);display:grid;place-items:center;font:700 19px var(--font-display);margin-bottom:24px;box-shadow:0 0 0 6px var(--bg);transition:transform .3s ease}
 .step:hover .step-badge{transform:scale(1.08)}
 .step:nth-child(2) .step-badge{background:var(--ink);color:var(--cream-ink)}
-.step-label{display:block;font:10.5px var(--font-mono);color:var(--lime-deep);letter-spacing:.1em;margin-bottom:6px}
-.step h3{font-size:25px;margin:6px 0 10px;max-width:230px}
-.step p{font-size:14px;color:var(--muted);line-height:1.65;max-width:280px}
-.pill{display:inline-flex;align-items:center;gap:6px;font:10px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-soft);padding:6px 11px;border-radius:var(--radius-full);color:var(--ink-soft);margin-top:18px}
-.step:nth-child(2) .pill{border-color:var(--lime-deep);color:var(--lime)}
+.step-label{display:block;font:11.5px var(--font-mono);color:var(--lime-deep);letter-spacing:.1em;margin-bottom:8px}
+.step h3{font-size:25px;margin:6px 0 12px;max-width:230px;line-height:1.2}
+.step p{font-size:14.5px;color:var(--muted);line-height:1.7;max-width:280px}
+.pill{display:inline-flex;align-items:center;gap:7px;font:10.5px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-soft);padding:8px 14px;border-radius:var(--radius-full);color:var(--ink-soft);margin-top:20px}
+.step:nth-child(2) .pill{border-color:var(--lime-deep);background:#d7f23a1f;color:#3f4d22}
 .section-head.centered{flex-direction:column;align-items:center;text-align:center;gap:14px}
 .section-head.centered p{max-width:480px}
 .steps.centered .step{text-align:center}
@@ -261,15 +266,17 @@ h1 em{font-style:normal;color:var(--lime)}
 .mode-tab.is-active b{color:var(--lime)}
 
 .wizard{background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:var(--radius);padding:30px;overflow:visible;position:relative}
-.wizard-meta{display:flex;justify-content:space-between;font:11px var(--font-mono);color:var(--muted);margin-bottom:13px}
-progress{width:100%;height:5px;border:0;border-radius:5px;background:var(--line);display:block;margin-bottom:28px;appearance:none}
+.wizard-meta{display:flex;justify-content:space-between;align-items:center;font:11px var(--font-mono);color:var(--muted);margin-bottom:16px;letter-spacing:.02em}
+progress{width:100%;height:6px;border:0;border-radius:5px;background:var(--line);display:block;margin-bottom:32px;appearance:none}
 progress::-webkit-progress-bar{background:var(--line);border-radius:5px}
-progress::-webkit-progress-value{background:var(--lime);border-radius:5px;transition:width .3s}
-progress::-moz-progress-bar{background:var(--lime);border-radius:5px}
+progress::-webkit-progress-value{background:var(--lime);border-radius:5px;transition:width .35s ease}
+progress::-moz-progress-bar{background:var(--lime);border-radius:5px;transition:width .35s ease}
 fieldset{border:0;padding:0;margin:0}
 fieldset[hidden]{display:none}
-legend{font-size:22px;font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;margin-bottom:14px;padding:0}
-label.field{display:block;font-size:13px;margin:16px 0 7px;color:var(--ink-soft)}
+@keyframes step-in{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+fieldset:not([hidden]){animation:step-in .38s cubic-bezier(.2,.8,.2,1)}
+legend{display:block;font-size:23px;font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:16px;padding:0}
+label.field{display:block;font-size:13px;margin:18px 0 8px;color:var(--ink-soft)}
 input:not([type=radio]):not([type=checkbox]),textarea,select{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--line-soft);border-radius:12px;padding:13px 14px;transition:border-color .2s}
 input:focus,textarea:focus,select:focus{border-color:var(--lime-deep)}
 textarea{resize:vertical;min-height:85px}
@@ -277,24 +284,76 @@ input::placeholder,textarea::placeholder{color:#767a63}
 select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) center,calc(100% - 15px) center;background-size:5px 5px;background-repeat:no-repeat}
 select option{background:var(--panel)}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.choices{position:relative;overflow:visible;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
-.choice{position:relative;min-height:72px;flex-wrap:wrap;border:1px solid var(--line-soft);padding:14px;border-radius:12px;font-size:13.5px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,background .2s,transform .2s}
-.choice .icon{margin-top:2px}
+.choices{position:relative;overflow:visible;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+.choice{position:relative;min-height:72px;flex-wrap:wrap;border:1px solid var(--line-soft);padding:16px;border-radius:12px;font-size:13.5px;line-height:1.4;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,background .2s,transform .2s,box-shadow .2s}
+.choice .icon{margin-top:2px;transition:transform .25s ease}
 .choice-text{display:flex;flex-direction:column;gap:3px}
 .choice-text b{font-weight:600;color:var(--ink)}
 .choice-text small{font-size:11.5px;color:var(--muted);line-height:1.4;font-weight:400}
 .choice:has(input:checked) .choice-text b{color:var(--lime)}
 .choice.other{grid-column:1/-1}
 .choice .icon{color:var(--muted);width:18px;height:18px}
-.choice:has(input:checked){border-color:var(--lime);background:#d7f23a12}
-.choice:has(input:checked) .icon{color:var(--lime)}
-.choice:hover{background:var(--panel);border-color:#b7d64f;transform:translateY(-2px)}
+@keyframes choice-pop{0%{transform:scale(.96)}55%{transform:scale(1.02)}100%{transform:scale(1)}}
+.choice:has(input:checked){border-color:var(--lime);background:#d7f23a12;animation:choice-pop .28s ease}
+.choice:has(input:checked) .icon{color:var(--lime);transform:scale(1.12)}
+.choice:hover{background:var(--panel);border-color:#b7d64f;transform:translateY(-2px);box-shadow:0 10px 24px #0003}
 .choice-other-input{display:none;flex-basis:100%;margin-top:2px;font-size:13px!important;padding:11px 12px!important}
 .choice:has(input:checked) .choice-other-input{display:block}
 input[type=radio],input[type=checkbox]{accent-color:var(--lime);width:16px;height:16px}
-.wizard-nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
-.error{color:#ffb59b;font-size:13px;min-height:20px;margin:8px 0 0}
-.check{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--muted);margin-top:18px}
+.wizard-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:28px}
+.error{color:#ffb59b;font-size:13px;line-height:1.5;min-height:20px;margin:10px 0 0}
+.check{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;line-height:1.5;color:var(--muted);margin-top:20px}
+.example{font-size:12.5px;line-height:1.5;color:var(--muted);margin:-4px 0 18px}
+.example b{color:var(--lime);font-weight:600}
+.link-call{display:block;width:100%;margin:16px auto 0;font-size:12.5px;text-align:center;line-height:1.5;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px}
+.link-call:hover{color:var(--lime)}
+
+/* ===== Tarjeta de descuento (Exp. 4) ===== */
+.discount-badge{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:58px;padding:0 12px;border-radius:50%;background:var(--lime);color:var(--lime-ink);font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.02em;box-shadow:0 0 0 6px #d7f23a1f;animation:badge-glow 2.6s ease-in-out infinite}
+@keyframes badge-glow{0%,100%{box-shadow:0 0 0 6px #d7f23a1f}50%{box-shadow:0 0 0 11px #d7f23a33}}
+.brief-teaser{background:var(--bg-soft);border:1px solid var(--line-soft);border-radius:var(--radius);padding:40px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;transition:transform .3s ease,box-shadow .3s ease}
+.brief-teaser:hover{transform:translateY(-5px);box-shadow:0 20px 50px #0006}
+.brief-teaser h3{font-size:23px;margin:4px 0 0;line-height:1.25}
+.brief-teaser p{max-width:250px;line-height:1.6}
+.brief-teaser .btn{margin-top:10px}
+.brief-teaser .link-call{margin-top:4px}
+
+/* ===== Manual de marca (Exp. 4, pregunta 6) ===== */
+.brand-upload{display:none;margin-top:18px;text-align:left}
+fieldset:has(input[name="brandManual"][value^="Sí"]:checked) .brand-upload{display:block}
+input[type=file]{width:100%;background:var(--panel);color:var(--ink-soft);border:1px dashed var(--line-soft);border-radius:12px;padding:12px 14px;font-size:12.5px}
+input[type=file]::file-selector-button{font:inherit;margin-right:12px;padding:8px 14px;border:none;border-radius:var(--radius-full);background:var(--lime);color:var(--lime-ink);font-weight:600;cursor:pointer}
+
+/* ===== Escala de claridad 1-5 (Exp. 4, pregunta 7) ===== */
+.clarity-scale{display:flex;gap:10px;margin:18px 0 6px}
+.clarity-choice{flex:1;display:flex;align-items:center;justify-content:center;height:52px;border:1px solid var(--line-soft);border-radius:12px;font:700 16px var(--font-display);cursor:pointer;transition:border-color .2s,background .2s}
+.clarity-choice input{position:absolute;opacity:0;pointer-events:none}
+.clarity-choice:has(input:checked){border-color:var(--lime);background:#d7f23a12;color:var(--lime)}
+.clarity-choice:hover{border-color:#b7d64f}
+.clarity-labels{display:flex;justify-content:space-between}
+
+/* ===== Popup del Experimento 4 ===== */
+.popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;max-width:min(560px,calc(100vw - 32px));width:100%;max-height:calc(100vh - 40px);overflow-y:auto;background:var(--bg-soft);color:var(--ink);border:1px solid var(--line-soft);border-radius:var(--radius);padding:34px;box-shadow:0 40px 100px #000c}
+.popup[open]{animation:popup-in .38s cubic-bezier(.2,.8,.2,1)}
+.popup::backdrop{background:#070814cc;animation:backdrop-in .3s ease}
+@keyframes popup-in{from{opacity:0;transform:translate(-50%,-50%) scale(.93)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes backdrop-in{from{opacity:0}to{opacity:1}}
+.popup-close{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:var(--panel);color:var(--ink-soft);display:grid;place-items:center;font-size:18px;line-height:1;transition:background .2s,color .2s,transform .2s}
+.popup-close:hover{background:var(--panel-2);color:var(--lime);transform:rotate(90deg)}
+.popup-head{text-align:center;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line-soft)}
+.popup-head h2{font-size:clamp(22px,4vw,27px);margin:14px 0 10px;line-height:1.2}
+.popup-head p{font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+.popup-steps{list-style:none;padding:0;margin:18px 0 0;text-align:left;display:flex;flex-direction:column;gap:11px}
+.popup-steps li{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--ink-soft);opacity:0;animation:step-list-in .45s ease forwards}
+.popup-steps li:nth-child(1){animation-delay:.08s}
+.popup-steps li:nth-child(2){animation-delay:.18s}
+.popup-steps li:nth-child(3){animation-delay:.28s}
+@keyframes step-list-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.popup-steps .icon{flex:none;width:15px;height:15px;color:var(--lime);margin-top:1px}
+@media(max-width:480px){
+  .popup{padding:24px 20px;border-radius:22px;max-height:calc(100vh - 20px)}
+  .clarity-choice{height:46px}
+}
 
 /* Popovers de ayuda — a pantalla completa, nunca se mezclan con el resto */
 .choice .info-toggle{margin-left:auto;border:1px solid #556339;border-radius:50%;width:24px;height:24px;font-size:13px;color:var(--lime);display:grid;place-items:center;flex-shrink:0;background:var(--panel)}
@@ -495,16 +554,16 @@ dialog .btn{margin-top:16px}
   <div>
     <div class="eyebrow"><span class="dot"></span> Desarrollo web express + IA</div>
     <h1>Tu negocio<br>ya se mueve.<br><em>Dale impulso<br>online.</em></h1>
-    <p class="lead">Convierte lo que haces en una web clara, profesional y lista para conectar con tus próximos clientes. Seis preguntas guiadas y ves tu primera propuesta en 24–48 horas.</p>
+    <p class="lead">Convierte lo que haces en una web clara, profesional y lista para conectar con tus próximos clientes. Completa tu brief en 2 minutos y ves tu primera propuesta en 24–48 horas.</p>
     <div class="actions">
       <a class="btn" href="#brief" data-cta="hero">Quiero empezar mi página <span class="icon" data-icon="arrow"></span></a>
       <a class="btn ghost" href="#proceso">Ver cómo funciona ↓</a>
     </div>
-    <p class="micro hero-note">6 preguntas para empezar · Sin conocimientos técnicos</p>
+    <p class="micro hero-note">2 minutos para empezar · 15% de descuento al completar</p>
     <div class="hero-stats">
-      <div><b>6</b>preguntas en el brief</div>
+      <div><b>2 min</b>para completar tu brief</div>
       <div><b>24–48h</b>meta para tu vista previa</div>
-      <div><b>70%</b>meta de leads que la ven a tiempo</div>
+      <div><b>15%</b>de descuento al completarlo</div>
     </div>
   </div>
   <div class="orbital" aria-hidden="true">
@@ -604,7 +663,7 @@ dialog .btn{margin-top:16px}
   <span class="ghost-num" aria-hidden="true">04</span><div class="wrap">
   <div class="section-head reveal centered"><div><div class="eyebrow">04 / Menos fricción, más avance</div><h2>Tres pasos. Un nuevo comienzo.</h2></div><p>Dos horas pueden cambiar tu día. Un proceso claro puede cambiar cómo tu negocio llega al mundo.</p></div>
   <div class="steps stagger centered">
-    <article class="step reveal"><span class="step-badge">01</span><span class="step-label">BRIEF INICIAL</span><h3>Un brief, sin enredos.</h3><p>Responde seis preguntas guiadas sobre tu negocio, tu objetivo, tu marca en Instagram y el estilo de tu web.</p><span class="pill"><span class="icon" data-icon="mail" style="width:12px;height:12px"></span>Menos de 5 minutos</span></article>
+    <article class="step reveal"><span class="step-badge">01</span><span class="step-label">BRIEF INICIAL</span><h3>Un brief, sin enredos.</h3><p>Responde unas preguntas cortas sobre tu negocio, tu objetivo, tu red social y el estilo de tu web. Actívalo y obtén 15% de descuento.</p><span class="pill"><span class="icon" data-icon="mail" style="width:12px;height:12px"></span>2 minutos</span></article>
     <article class="step reveal"><span class="step-badge">02</span><span class="step-label">VISTA PREVIA</span><h3>Tu primera vista previa.</h3><p>Organizamos tu información y creamos una propuesta visual. Meta del piloto: verla antes de 48 horas.</p><span class="pill"><span class="icon" data-icon="clock" style="width:12px;height:12px"></span>Meta: 24–48 horas</span></article>
     <article class="step reveal"><span class="step-badge">03</span><span class="step-label">ENTREGA</span><h3>Ajustamos y entregamos.</h3><p>Recogemos tus comentarios y cerramos los ajustes acordados junto con la fecha de entrega.</p><span class="pill"><span class="icon" data-icon="check" style="width:12px;height:12px"></span>Entrega acordada</span></article>
   </div>
@@ -616,189 +675,205 @@ dialog .btn{margin-top:16px}
   <span class="ghost-num" aria-hidden="true">05</span><div class="wrap brief-layout">
   <div class="brief-intro reveal">
     <div class="eyebrow">05 / Tu idea empieza aquí</div>
-    <h2>Vamos a darle<br>forma a tu web.</h2>
-    <p>Dos formas de avanzar: hazlo tú mismo en seis preguntas guiadas, o agenda una llamada corta y lo completamos contigo.</p>
+    <h2>15% de descuento<br>en tu página web.</h2>
+    <p>Responde unas preguntas rápidas (2 minutos) y en 48 horas te mostramos tu página por WhatsApp, sin compromiso.</p>
     <ul class="trust">
-      <li><span class="icon" data-icon="check"></span> Seis preguntas guiadas, menos de 5 minutos</li>
+      <li><span class="icon" data-icon="check"></span> Preguntas cortas, con un ejemplo en cada una</li>
       <li><span class="icon" data-icon="sparkles"></span> Sin diseños automáticos: revisamos tu idea contigo</li>
-      <li><span class="icon" data-icon="clock"></span> Propuesta diseñada por el equipo en 24–48h</li>
+      <li><span class="icon" data-icon="clock"></span> Vista previa por WhatsApp en 24–48h</li>
     </ul>
-    <p class="micro">Tus respuestas se guardan en este dispositivo mientras completas el brief. Puedes descargarlas al terminar.</p>
+    <p class="micro">Tus respuestas se guardan en este dispositivo mientras completas el formulario.</p>
   </div>
-
-  <div class="wizard">
-    <div class="mode-tabs" role="tablist" aria-label="Cómo quieres completar tu brief">
-      <button type="button" class="mode-tab is-active" id="mode-form" role="tab" aria-selected="true" data-mode="form">
-        <span class="icon" data-icon="mail"></span>
-        <b>Llenar el formulario ahora</b>
-        <span>Seis preguntas guiadas, menos de 5 minutos.</span>
-      </button>
-      <button type="button" class="mode-tab" id="mode-call" role="tab" aria-selected="false" data-mode="call">
-        <span class="icon" data-icon="clock"></span>
-        <b>Agendar una llamada guiada</b>
-        <span>Elige un horario y lo completamos juntos por teléfono o WhatsApp.</span>
-      </button>
-    </div>
-
-    <div id="form-area">
-      <div class="wizard-meta"><span id="step-counter">Pregunta 1 de 6</span><span id="route-tag">Tu punto de partida</span></div>
-      <progress id="progress" max="6" value="1" aria-label="Progreso del brief"></progress>
-      <form id="brief-form" novalidate>
-        <fieldset data-step="0">
-          <legend tabindex="-1">¿Cómo se llama tu negocio y qué haces?</legend>
-          <label class="field" for="business">Nombre del negocio o idea *</label>
-          <input id="business" name="business" required maxlength="100" autocomplete="organization" placeholder="Ej. Brisa Café">
-          <label class="field" for="offer">Cuéntanos tu oferta y tu público en una línea *</label>
-          <input id="offer" name="offer" required maxlength="200" placeholder="Ej. Desayunos artesanales para familias en Santa Marta">
-        </fieldset>
-        <fieldset data-step="1" hidden>
-          <legend tabindex="-1">¿Cuál es tu objetivo principal?</legend>
-          <p class="micro">Si llegaste desde una ruta, ya está seleccionada.</p>
-          <div class="choices">
-            <label class="choice"><input type="radio" name="need" value="Digitalizar" required><span class="icon" data-icon="grid"></span><span class="choice-text"><b>Digitalizar</b><small>Muestra tu catálogo, precios, facturas o contacto en un solo lugar.</small></span></label>
-            <label class="choice"><input type="radio" name="need" value="Captar"><span class="icon" data-icon="target"></span><span class="choice-text"><b>Captar clientes</b><small>Convierte visitas de tus redes en mensajes, llamadas o citas.</small></span></label>
-            <label class="choice"><input type="radio" name="need" value="Automatizar"><span class="icon" data-icon="zap"></span><span class="choice-text"><b>Automatizar</b><small>Organiza respuestas, cotizaciones o citas sin hacerlo a mano.</small></span></label>
-            <label class="choice"><input type="radio" name="need" value="Validar"><span class="icon" data-icon="compass"></span><span class="choice-text"><b>Validar mi idea</b><small>Prueba si tu idea funciona antes de invertir en desarrollarla del todo.</small></span></label>
-          </div>
-        </fieldset>
-        <fieldset data-step="2" hidden>
-          <legend tabindex="-1" id="detail-legend">Cuéntanos más sobre tu objetivo</legend>
-          <p class="micro" id="detail-intro">Así entendemos mejor qué necesitas.</p>
-          <div class="choices" data-branch="Digitalizar">
-            <label class="choice"><input type="radio" name="audience" value="Catálogo de productos o servicios"><span class="icon" data-icon="grid"></span>Catálogo de productos o servicios</label>
-            <label class="choice"><input type="radio" name="audience" value="Facturas y cuentas de cobro"><span class="icon" data-icon="check"></span>Facturas y cuentas de cobro</label>
-            <label class="choice"><input type="radio" name="audience" value="Horarios, ubicación y contacto"><span class="icon" data-icon="compass"></span>Horarios, ubicación y contacto</label>
-            <label class="choice"><input type="radio" name="audience" value="Menú o portafolio"><span class="icon" data-icon="sparkles"></span>Menú o portafolio</label>
-            <label class="choice other"><input type="radio" name="audience" value="Otro"><span class="icon" data-icon="zap"></span>Otro<input type="text" class="choice-other-input" name="audience_other" maxlength="280" placeholder="Cuéntanos qué necesitas digitalizar"></label>
-          </div>
-          <div class="choices" data-branch="Captar" hidden>
-            <label class="choice"><input type="radio" name="audience" value="Formulario en la web"><span class="icon" data-icon="grid"></span>Formulario en la web</label>
-            <label class="choice"><input type="radio" name="audience" value="WhatsApp directo"><span class="icon" data-icon="target"></span>WhatsApp directo</label>
-            <label class="choice"><input type="radio" name="audience" value="Llamadas telefónicas"><span class="icon" data-icon="clock"></span>Llamadas telefónicas</label>
-            <label class="choice"><input type="radio" name="audience" value="Reservas o citas"><span class="icon" data-icon="check"></span>Reservas o citas</label>
-            <label class="choice other"><input type="radio" name="audience" value="Otro"><span class="icon" data-icon="sparkles"></span>Otro<input type="text" class="choice-other-input" name="audience_other" maxlength="280" placeholder="Cuéntanos cómo prefieres recibir contactos"></label>
-          </div>
-          <div class="choices" data-branch="Automatizar" hidden>
-            <label class="choice"><input type="radio" name="audience" value="Respuestas a preguntas frecuentes"><span class="icon" data-icon="grid"></span>Respuestas a preguntas frecuentes</label>
-            <label class="choice"><input type="radio" name="audience" value="Agendar citas"><span class="icon" data-icon="clock"></span>Agendar citas</label>
-            <label class="choice"><input type="radio" name="audience" value="Cotizaciones o precios"><span class="icon" data-icon="check"></span>Cotizaciones o precios</label>
-            <label class="choice"><input type="radio" name="audience" value="Seguimiento de pedidos"><span class="icon" data-icon="compass"></span>Seguimiento de pedidos</label>
-            <label class="choice other"><input type="radio" name="audience" value="Otro"><span class="icon" data-icon="sparkles"></span>Otro<input type="text" class="choice-other-input" name="audience_other" maxlength="280" placeholder="Cuéntanos qué quieres automatizar"></label>
-          </div>
-          <div class="choices" data-branch="Validar" hidden>
-            <label class="choice"><input type="radio" name="audience" value="Si la gente pagaría por mi idea"><span class="icon" data-icon="target"></span>Si la gente pagaría por mi idea</label>
-            <label class="choice"><input type="radio" name="audience" value="Cuál sería el precio ideal"><span class="icon" data-icon="check"></span>Cuál sería el precio ideal</label>
-            <label class="choice"><input type="radio" name="audience" value="Qué características interesan más"><span class="icon" data-icon="grid"></span>Qué características interesan más</label>
-            <label class="choice"><input type="radio" name="audience" value="Si hay suficiente demanda"><span class="icon" data-icon="compass"></span>Si hay suficiente demanda</label>
-            <label class="choice other"><input type="radio" name="audience" value="Otro"><span class="icon" data-icon="sparkles"></span>Otro<input type="text" class="choice-other-input" name="audience_other" maxlength="280" placeholder="Cuéntanos qué quieres validar"></label>
-          </div>
-          <label class="field" style="margin-top:20px">¿Qué tienes listo hoy? Elige las que apliquen.</label>
-          <div class="choices">
-            <label class="choice"><input type="checkbox" name="readyMarketing" value="Plan de marketing definido"><span class="icon" data-icon="check"></span>Plan de marketing definido</label>
-            <label class="choice"><input type="checkbox" name="readySocial" value="Redes sociales activas"><span class="icon" data-icon="sparkles"></span>Redes sociales activas</label>
-            <label class="choice"><input type="checkbox" name="readyContent" value="Fotos o contenido listo"><span class="icon" data-icon="grid"></span>Fotos o contenido listo</label>
-            <label class="choice"><input type="checkbox" name="readyNone" value="Nada de esto, empiezo desde cero"><span class="icon" data-icon="compass"></span>Nada de esto, empiezo desde cero</label>
-          </div>
-        </fieldset>
-        <fieldset data-step="3" hidden>
-          <legend tabindex="-1">¿Cómo se ve tu marca en Instagram hoy?</legend>
-          <p class="micro">Así entendemos de dónde partimos.</p>
-          <div class="choices">
-            <label class="choice"><input type="radio" name="reference" value="Ordenada y consistente" required><span class="icon" data-icon="check"></span>Ordenada y consistente</label>
-            <label class="choice"><input type="radio" name="reference" value="Tengo contenido, sin orden"><span class="icon" data-icon="grid"></span>Tengo contenido, sin orden</label>
-            <label class="choice"><input type="radio" name="reference" value="Casi no publico"><span class="icon" data-icon="clock"></span>Casi no publico</label>
-            <label class="choice"><input type="radio" name="reference" value="No tengo Instagram"><span class="icon" data-icon="compass"></span>No tengo Instagram</label>
-            <label class="choice other"><input type="radio" name="reference" value="Otro"><span class="icon" data-icon="sparkles"></span>Otro<input type="text" class="choice-other-input" name="reference_other" maxlength="280" placeholder="Cuéntanos en pocas palabras"></label>
-          </div>
-        </fieldset>
-        <fieldset data-step="4" hidden>
-          <legend tabindex="-1">¿Cómo quieres que se vea tu nueva web?</legend>
-          <p class="micro">Elige lo que más se acerque a lo que imaginas.</p>
-          <div class="choices">
-            <label class="choice"><input type="radio" name="style" value="Minimalista y elegante" required><span class="icon" data-icon="grid"></span>Minimalista y elegante</label>
-            <label class="choice"><input type="radio" name="style" value="Colorida y llamativa"><span class="icon" data-icon="zap"></span>Colorida y llamativa</label>
-            <label class="choice"><input type="radio" name="style" value="Profesional y corporativa"><span class="icon" data-icon="check"></span>Profesional y corporativa</label>
-            <label class="choice"><input type="radio" name="style" value="Igual que mi Instagram"><span class="icon" data-icon="sparkles"></span>Igual que mi Instagram</label>
-            <label class="choice other"><input type="radio" name="style" value="Otro"><span class="icon" data-icon="compass"></span>Otro<input type="text" class="choice-other-input" name="style_other" maxlength="90" placeholder="Describe el estilo"></label>
-          </div>
-        </fieldset>
-        <fieldset data-step="5" hidden>
-          <legend tabindex="-1">¿A dónde enviamos tu vista previa?</legend>
-          <label class="field" for="person">Tu nombre *</label>
-          <input id="person" name="person" required maxlength="100" autocomplete="name">
-          <label class="field" for="email">Correo electrónico *</label>
-          <input id="email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="tu@correo.com">
-          <label class="field" for="phone">WhatsApp (opcional)</label>
-          <input id="phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="+57 300 123 4567">
-          <label class="check"><input id="consent" type="checkbox" required><span>Acepto que 2H.O me contacte sobre esta solicitud. *</span></label>
-        </fieldset>
-        <p class="error" id="error" role="alert"></p>
-        <div class="wizard-nav">
-          <button class="btn ghost" id="back" type="button" disabled>← Atrás</button>
-          <button class="btn" id="next" type="submit">Continuar <span class="icon" data-icon="arrow"></span></button>
-        </div>
-      </form>
-    </div>
-
-    <div id="call-area" hidden>
-      <legend style="display:block">Agenda tu llamada guiada</legend>
-      <p class="micro" style="margin:6px 0 4px">Proponnos un horario. El equipo lo confirma por correo o WhatsApp antes de llamarte.</p>
-      <form id="call-form" novalidate>
-        <label class="field" for="call-business">Nombre del negocio o idea *</label>
-        <input id="call-business" name="business" required maxlength="100" autocomplete="organization" placeholder="Ej. Brisa Café">
-        <div class="field-row">
-          <div>
-            <label class="field" for="call-person">Tu nombre *</label>
-            <input id="call-person" name="person" required maxlength="100" autocomplete="name">
-          </div>
-          <div>
-            <label class="field" for="call-phone">WhatsApp (opcional)</label>
-            <input id="call-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="+57 300 123 4567">
-          </div>
-        </div>
-        <label class="field" for="call-email">Correo electrónico *</label>
-        <input id="call-email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="tu@correo.com">
-        <div class="field-row">
-          <div>
-            <label class="field" for="call-date">Día propuesto *</label>
-            <input id="call-date" name="date" type="date" required>
-          </div>
-          <div>
-            <label class="field" for="call-time">Hora propuesta (Colombia) *</label>
-            <input id="call-time" name="time" type="time" required>
-          </div>
-        </div>
-        <label class="check"><input id="call-consent" type="checkbox" required><span>Acepto que 2H.O me contacte para confirmar este horario. *</span></label>
-        <p class="error" id="call-error" role="alert"></p>
-        <div class="wizard-nav" style="justify-content:flex-end">
-          <button class="btn" id="call-submit" type="submit">Agendar llamada <span class="icon" data-icon="arrow"></span></button>
-        </div>
-      </form>
-    </div>
-
-    <div id="activation" hidden tabindex="-1">
-      <div class="success-icon icon filled" data-icon="check" style="width:46px;height:46px"></div>
-      <h3 id="activation-title" style="font-size:25px;margin-top:14px">Tu brief tiene forma.</h3>
-      <p class="micro" id="activation-summary"></p>
-      <ol class="status-list" id="activation-status">
-        <li class="active done"><span class="icon" data-icon="check"></span>Brief completado</li>
-        <li class="active" id="status-preview"><span class="icon" data-icon="sparkles"></span>Vista previa: pendiente de preparación</li>
-        <li id="status-delivery"><span class="icon" data-icon="clock"></span>Meta de primera propuesta: 24–48 horas después de iniciar el brief</li>
-      </ol>
-      <p class="brief-wait-note" id="activation-note">Tu página no se genera al enviar este formulario. El equipo revisa tu brief y prepara la primera vista previa en 24–48 horas como meta del piloto.</p>
-      <div class="activation-actions" id="activation-actions">
-        <button class="btn" id="download-brief" type="button">Descargar mi brief ↓</button>
-        <a class="btn ghost" id="activation-whatsapp" target="_blank" rel="noopener">Hablar por WhatsApp <span class="icon" data-icon="arrow"></span></a>
-      </div>
-      <p class="micro" id="send-status" role="status" style="margin-top:14px"></p>
-
-      <details id="activation-details">
-        <summary>Sobre esta demostración</summary>
-        <p class="micro">Meta del experimento: al menos el 70% de quienes inician el brief ve su primera vista previa en menos de 48 horas. El reloj empieza cuando abres la primera pregunta.</p>
-      </details>
-    </div>
+  <div class="brief-teaser reveal pop">
+    <span class="discount-badge">-15%</span>
+    <h3>Activa tu descuento</h3>
+    <p class="micro">Te toma 2 minutos y en 48 h ves tu página.</p>
+    <button type="button" class="btn" data-open-popup>Completar mi brief <span class="icon" data-icon="arrow"></span></button>
+    <button type="button" class="link-call" data-open-call>¿Prefieres agendar una llamada?</button>
   </div>
 </div></section>
+
+<dialog id="brief-popup" class="popup">
+  <button type="button" class="popup-close" id="popup-close" aria-label="Cerrar">&times;</button>
+  <div class="popup-head">
+    <span class="discount-badge">-15%</span>
+    <h2>15% de descuento en tu página web</h2>
+    <p>Este es tu primer acercamiento con el equipo. Cuéntanos tu idea y damos el primer paso juntos.</p>
+    <ul class="popup-steps">
+      <li><span class="icon" data-icon="check"></span> Con esta información armamos el primer prototipo de tu página.</li>
+      <li><span class="icon" data-icon="clock"></span> Te lo presentamos en una sesión en vivo de 2 horas online contigo.</li>
+      <li><span class="icon" data-icon="sparkles"></span> Ahí cerramos el proyecto y en 48 horas recibes tu página lista.</li>
+    </ul>
+  </div>
+
+  <div id="form-area">
+    <div class="wizard-meta"><span id="step-counter">Pregunta 1 de 8</span><span class="micro">2 min · vista previa en 48h</span></div>
+    <progress id="progress" max="8" value="1" aria-label="Progreso del formulario"></progress>
+    <form id="brief-form" novalidate>
+      <fieldset data-step="0">
+        <legend tabindex="-1">¿Cómo se llama tu negocio?</legend>
+        <p class="example">Ejemplo: <b>Placita Vieja Hotel Boutique</b></p>
+        <input id="business" name="business" required maxlength="100" autocomplete="organization" placeholder="Nombre de tu negocio">
+      </fieldset>
+
+      <fieldset data-step="1" hidden>
+        <legend tabindex="-1">Cuéntanos qué hace tu negocio</legend>
+        <p class="example">Ejemplo: <b>Vendemos comida saludable a domicilio</b></p>
+        <textarea id="businessDescription" name="businessDescription" required maxlength="300" placeholder="Escribe en pocas palabras a qué se dedica tu negocio"></textarea>
+      </fieldset>
+
+      <fieldset data-step="2" hidden>
+        <legend tabindex="-1">¿Qué tipo de negocio es?</legend>
+        <p class="micro">Elige la opción que más se parezca.</p>
+        <select id="category" name="category" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
+          <option>Restaurante o comida rápida</option>
+          <option>Cafetería o panadería</option>
+          <option>Bar o discoteca</option>
+          <option>Hotel, hostal o alojamiento turístico</option>
+          <option>Agencia de viajes o turismo</option>
+          <option>Belleza, spa o estética</option>
+          <option>Barbería</option>
+          <option>Gimnasio o entrenamiento personal</option>
+          <option>Salud (clínica, consultorio, odontología)</option>
+          <option>Tienda de ropa o moda</option>
+          <option>Tienda de calzado o accesorios</option>
+          <option>Supermercado o minimarket</option>
+          <option>Ferretería</option>
+          <option>Tienda de tecnología o electrónica</option>
+          <option>Mueblería o decoración del hogar</option>
+          <option>Joyería</option>
+          <option>Floristería</option>
+          <option>Inmobiliaria o arriendos</option>
+          <option>Construcción o remodelación</option>
+          <option>Arquitectura o diseño de interiores</option>
+          <option>Talleres automotrices o repuestos</option>
+          <option>Veterinaria o tienda de mascotas</option>
+          <option>Educación, cursos o academia</option>
+          <option>Agencia de marketing, diseño o publicidad</option>
+          <option>Fotografía o video</option>
+          <option>Eventos, fiestas o decoración</option>
+          <option>Abogados o servicios legales</option>
+          <option>Contabilidad o servicios financieros</option>
+          <option>Tecnología, software o startup</option>
+          <option>Agricultura o agroindustria</option>
+          <option>Manufactura o fábrica</option>
+          <option>ONG o fundación</option>
+          <option value="Otro">Otro</option>
+        </select>
+        <input type="text" id="category_other" name="category_other" class="choice-other-input" style="margin-top:10px;display:none" maxlength="60" placeholder="Cuéntanos qué tipo de negocio es">
+      </fieldset>
+
+      <fieldset data-step="3" hidden>
+        <legend tabindex="-1">¿Qué quieres lograr con tu página?</legend>
+        <p class="example">Ejemplo: <b>Captar nuevos clientes</b></p>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="objective" value="Captar nuevos clientes" required><span class="icon" data-icon="target"></span>Captar nuevos clientes</label>
+          <label class="choice"><input type="radio" name="objective" value="Transformación digital de mi negocio"><span class="icon" data-icon="grid"></span>Transformación digital de mi negocio</label>
+          <label class="choice"><input type="radio" name="objective" value="Automatizar procesos internos"><span class="icon" data-icon="zap"></span>Automatizar procesos internos</label>
+          <label class="choice"><input type="radio" name="objective" value="Validar o vender un nuevo producto o servicio"><span class="icon" data-icon="compass"></span>Validar o vender un nuevo producto o servicio</label>
+        </div>
+      </fieldset>
+
+      <fieldset data-step="4" hidden>
+        <legend tabindex="-1">¿Tienes redes sociales o Google Maps?</legend>
+        <p class="micro">Opcional. Comparte el link y así tomamos fotos y datos reales para tu vista previa. Si no tienes, déjalo en blanco.</p>
+        <p class="example">Ejemplo: <b>instagram.com/tunegocio</b></p>
+        <input id="socialLink" name="socialLink" type="text" maxlength="200" placeholder="instagram.com/tunegocio">
+      </fieldset>
+
+      <fieldset data-step="5" hidden>
+        <legend tabindex="-1">¿Tu negocio ya tiene un manual de marca?</legend>
+        <p class="micro">Colores, tipografía, logo o mockups ya definidos.</p>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="brandManual" value="Sí, ya tengo manual de marca" required><span class="icon" data-icon="check"></span>Sí, ya tengo manual de marca</label>
+          <label class="choice"><input type="radio" name="brandManual" value="No, aún no tengo"><span class="icon" data-icon="x"></span>No, aún no tengo</label>
+        </div>
+        <div class="brand-upload">
+          <label class="field" for="brandManualFile">Adjunta tu manual de marca (PDF, imagen o ZIP, máx. 8MB)</label>
+          <input type="file" id="brandManualFile" name="brandManualFile" accept=".pdf,.jpg,.jpeg,.png,.zip,.ai,.psd">
+          <p class="micro" style="margin-top:12px">¿Prefieres compartir un link? (Drive, Dropbox, WeTransfer...)</p>
+          <input type="text" id="brandManualLink" name="brandManualLink" maxlength="300" placeholder="https://drive.google.com/...">
+        </div>
+      </fieldset>
+
+      <fieldset data-step="6" hidden>
+        <legend tabindex="-1">¿A qué WhatsApp enviamos tu vista previa?</legend>
+        <p class="example">Ejemplo: <b>300 123 4567</b></p>
+        <input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel" placeholder="300 123 4567">
+        <label class="check"><input id="consent" type="checkbox" required><span>Acepto que 2H.O me contacte por WhatsApp para enviarme mi vista previa. *</span></label>
+      </fieldset>
+
+      <fieldset data-step="7" hidden>
+        <legend tabindex="-1">¿Qué tan claro fue este formulario?</legend>
+        <p class="micro">Opcional, nos ayuda a mejorarlo.</p>
+        <div class="clarity-scale" role="radiogroup" aria-label="Claridad del formulario">
+          <label class="clarity-choice"><input type="radio" name="clarity" value="1"><span>1</span></label>
+          <label class="clarity-choice"><input type="radio" name="clarity" value="2"><span>2</span></label>
+          <label class="clarity-choice"><input type="radio" name="clarity" value="3"><span>3</span></label>
+          <label class="clarity-choice"><input type="radio" name="clarity" value="4"><span>4</span></label>
+          <label class="clarity-choice"><input type="radio" name="clarity" value="5"><span>5</span></label>
+        </div>
+        <div class="clarity-labels micro"><span>1 = nada claro</span><span>5 = muy claro</span></div>
+      </fieldset>
+
+      <p class="error" id="error" role="alert"></p>
+      <div class="wizard-nav">
+        <button class="btn ghost" id="back" type="button" disabled>← Atrás</button>
+        <button class="btn" id="next" type="submit">Continuar <span class="icon" data-icon="arrow"></span></button>
+      </div>
+    </form>
+    <button type="button" class="link-call" id="open-call-from-form">¿Prefieres agendar una llamada en vez de llenar el formulario?</button>
+  </div>
+
+  <div id="call-area" hidden>
+    <legend style="display:block">Agenda tu llamada guiada</legend>
+    <p class="micro" style="margin:6px 0 4px">Proponnos un horario. El equipo lo confirma por correo o WhatsApp antes de llamarte.</p>
+    <form id="call-form" novalidate>
+      <label class="field" for="call-business">Nombre del negocio o idea *</label>
+      <input id="call-business" name="business" required maxlength="100" autocomplete="organization" placeholder="Ej. Brisa Café">
+      <div class="field-row">
+        <div>
+          <label class="field" for="call-person">Tu nombre *</label>
+          <input id="call-person" name="person" required maxlength="100" autocomplete="name">
+        </div>
+        <div>
+          <label class="field" for="call-phone">WhatsApp (opcional)</label>
+          <input id="call-phone" name="phone" type="tel" maxlength="25" autocomplete="tel" placeholder="+57 300 123 4567">
+        </div>
+      </div>
+      <label class="field" for="call-email">Correo electrónico *</label>
+      <input id="call-email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="tu@correo.com">
+      <div class="field-row">
+        <div>
+          <label class="field" for="call-date">Día propuesto *</label>
+          <input id="call-date" name="date" type="date" required>
+        </div>
+        <div>
+          <label class="field" for="call-time">Hora propuesta (Colombia) *</label>
+          <input id="call-time" name="time" type="time" required>
+        </div>
+      </div>
+      <label class="check"><input id="call-consent" type="checkbox" required><span>Acepto que 2H.O me contacte para confirmar este horario. *</span></label>
+      <p class="error" id="call-error" role="alert"></p>
+      <div class="wizard-nav">
+        <button class="btn ghost" type="button" id="back-to-form">← Volver al formulario</button>
+        <button class="btn" id="call-submit" type="submit">Agendar llamada <span class="icon" data-icon="arrow"></span></button>
+      </div>
+    </form>
+  </div>
+
+  <div id="activation" hidden tabindex="-1">
+    <div class="success-icon icon filled" data-icon="check" style="width:46px;height:46px"></div>
+    <h3 id="activation-title" style="font-size:25px;margin-top:14px">Tu brief tiene forma.</h3>
+    <p class="micro" id="activation-summary"></p>
+    <p class="brief-wait-note" id="activation-note">Tu 15% de descuento queda reservado. El equipo revisa tu información y te muestra tu página por WhatsApp en 24–48 horas.</p>
+    <div class="activation-actions" id="activation-actions">
+      <a class="btn ghost" id="activation-whatsapp" target="_blank" rel="noopener">Hablar por WhatsApp <span class="icon" data-icon="arrow"></span></a>
+    </div>
+    <p class="micro" id="send-status" role="status" style="margin-top:14px"></p>
+  </div>
+</dialog>
 
 <section class="chapter chapter-lima" id="pilotos">
   <span class="shape shape-ring on-lima spin-rev" style="width:260px;height:260px;border-width:50px;left:-110px;top:-90px" aria-hidden="true"></span>
@@ -1006,9 +1081,43 @@ const counterIO = new IntersectionObserver(entries => {
 }, { threshold: .6 });
 $$('.counter').forEach(el => counterIO.observe(el));
 
-/* ---------- Wizard (brief self-serve) ---------- */
+/* ---------- Popup del Experimento 4 (formulario v2 + 15% dto.) ---------- */
+const popup = $('#brief-popup');
+const POPUP_SEEN_KEY = '2ho_exp4_popup_seen';
+function openPopup(){
+  if(!popup.open) popup.showModal();
+  trackExp4('popup_shown');
+  ensureCloudStartExp4().catch(()=>{});
+  try{ localStorage.setItem(POPUP_SEEN_KEY,'1'); }catch{}
+}
+function closePopup(reason){
+  if(popup.open) popup.close();
+  trackExp4('popup_closed', { atStep: step, reason: reason||'manual' });
+}
+$('#popup-close').addEventListener('click', () => closePopup('close_button'));
+popup.addEventListener('cancel', () => trackExp4('popup_closed', { atStep: step, reason: 'escape' }));
+popup.addEventListener('click', e => { if(e.target === popup) closePopup('backdrop'); });
+$$('[data-open-popup]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openPopup(); }));
+$$('a[href="#brief"]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openPopup(); }));
+$$('[data-route]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); track('cta_clicked', { source:'route', need:el.dataset.route }); openPopup(); }));
+(function initPopupTrigger(){
+  let alreadySeen = false;
+  try{ alreadySeen = Boolean(localStorage.getItem(POPUP_SEEN_KEY)); }catch{}
+  if(alreadySeen) return;
+  const section1 = document.querySelector('#problema') || document.querySelector('.hero');
+  if(!section1 || typeof IntersectionObserver === 'undefined'){ setTimeout(() => { if(!completed) openPopup(); }, 0); return; }
+  const popupIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting && !completed){ openPopup(); popupIO.disconnect(); }
+    });
+  }, { threshold: 0.1 });
+  popupIO.observe(section1);
+})();
+
+/* ---------- Wizard: formulario v2 (Exp. 4) ---------- */
 const form = $('#brief-form');
 const panels = $$('#brief-form fieldset');
+$('#progress').max = panels.length;
 let step = 0, completed = false;
 function showStep(focus = true){
   panels.forEach((p, i) => p.hidden = i !== step);
@@ -1019,6 +1128,7 @@ function showStep(focus = true){
   paintIcons();
   $('#error').textContent = '';
   if(focus) panels[step].querySelector('legend').focus();
+  pingStepExp4();
 }
 function validate(){
   const panel = panels[step];
@@ -1026,56 +1136,18 @@ function validate(){
   if(invalid){ $('#error').textContent = 'Falta completar esta pregunta antes de continuar.'; invalid.focus(); return false; }
   return true;
 }
-/* ---------- Paso condicional según el objetivo elegido ---------- */
-const detailCopy = {
-  Digitalizar: { legend:'Cuéntanos más sobre digitalizar tu negocio.', intro:'Así sabemos qué mostrar primero en tu web.' },
-  Captar: { legend:'Cuéntanos cómo quieres captar clientes.', intro:'Así diseñamos el camino hacia el contacto.' },
-  Automatizar: { legend:'Cuéntanos qué quieres automatizar.', intro:'Así priorizamos lo que más tiempo te ahorra.' },
-  Validar: { legend:'Cuéntanos qué quieres validar.', intro:'Así enfocamos la propuesta hacia tu pregunta clave.' },
-};
-function updateDetailBranch(){
-  const need = form.querySelector('input[name="need"]:checked')?.value;
-  const copy = detailCopy[need] || detailCopy.Digitalizar;
-  $('#detail-legend').textContent = copy.legend;
-  $('#detail-intro').textContent = copy.intro;
-  $$('#brief-form .choices[data-branch]').forEach(block => {
-    const active = block.dataset.branch === need;
-    block.hidden = !active;
-    block.querySelectorAll('input').forEach(inp => { inp.disabled = !active; if(!active) inp.required = false; });
-  });
-  const activeFirst = form.querySelector(`.choices[data-branch="${need}"] input[type=radio]`);
-  if(activeFirst) activeFirst.required = true;
-}
-
-$$('[data-route]').forEach(b => b.addEventListener('click', () => {
-  track('cta_clicked', { source: 'route', need: b.dataset.route });
-  start();
-  if(!completed){
-    setMode('form');
-    form.querySelector(`input[value="${b.dataset.route}"]`).checked = true;
-    $('#route-tag').textContent = b.dataset.route;
-    updateDetailBranch();
-    step = 0; showStep();
-  }
-  $('#brief').scrollIntoView({ behavior: 'smooth' });
-}));
 form.addEventListener('focusin', start);
 form.addEventListener('input', () => $('#error').textContent = '');
-form.addEventListener('change', () => { $('#route-tag').textContent = new FormData(form).get('need') || 'Tu punto de partida'; updateDetailBranch(); });
+$('#category').addEventListener('change', () => {
+  const isOther = $('#category').value === 'Otro';
+  $('#category_other').style.display = isOther ? 'block' : 'none';
+  if(!isOther) $('#category_other').value = '';
+});
 $('#back').addEventListener('click', () => { if(step > 0){ step--; showStep(); } });
 
-/* ---------- Mode toggle: formulario vs llamada guiada ---------- */
-const modeButtons = $$('.mode-tab');
-function setMode(mode){
-  modeButtons.forEach(b => { const active = b.dataset.mode === mode; b.classList.toggle('is-active', active); b.setAttribute('aria-selected', String(active)); });
-  $('#form-area').hidden = mode !== 'form' || completed;
-  $('#call-area').hidden = mode !== 'call' || completed;
-}
-modeButtons.forEach(b => b.addEventListener('click', () => { start(); setMode(b.dataset.mode); }));
-
-/* ---------- Draft autosave (local only, no contact fields) ---------- */
-const DRAFT_KEY = '2ho_brief_draft';
-const DRAFT_FIELDS = ['business','offer','need'];
+/* ---------- Draft autosave (local only, sin WhatsApp) ---------- */
+const DRAFT_KEY = '2ho_exp4_draft';
+const DRAFT_FIELDS = ['business','businessDescription','category','category_other','objective','socialLink','brandManual'];
 function saveDraft(){
   try{
     const data = new FormData(form);
@@ -1088,19 +1160,19 @@ function restoreDraft(){
     const raw = sessionStorage.getItem(DRAFT_KEY);
     if(!raw) return;
     const fields = JSON.parse(raw);
-    if(fields.business) $('#business').value = fields.business;
-    if(fields.offer) $('#offer').value = fields.offer;
-    if(fields.need){ const r = form.querySelector(`input[value="${fields.need}"]`); if(r) r.checked = true; $('#route-tag').textContent = fields.need; }
+    ['business','businessDescription','category_other','socialLink'].forEach(k => { if(fields[k]) $('#'+k) && ($('#'+k).value = fields[k]); });
+    if(fields.category){ $('#category').value = fields.category; if(fields.category === 'Otro') $('#category_other').style.display = 'block'; }
+    if(fields.objective){ const r = form.querySelector(`input[name="objective"][value="${fields.objective}"]`); if(r) r.checked = true; }
+    if(fields.brandManual){ const r = form.querySelector(`input[name="brandManual"][value="${fields.brandManual}"]`); if(r) r.checked = true; }
   }catch{}
-  updateDetailBranch();
 }
 form.addEventListener('input', saveDraft);
 form.addEventListener('change', saveDraft);
 restoreDraft();
 
-/* ---------- Confirmed Google Apps Script submission ---------- */
+/* ---------- Conexión con el backend de Apps Script vía fetch ---------- */
 const cloudConnected=Boolean(CONFIG.appsScriptUrl);
-let cloudStart=null, sending=false;
+let cloudStart=null, cloudStartExp4=null, sending=false;
 const leadId=(()=>{try{let id=sessionStorage.getItem('2ho_pilot_lead');if(!id){id=participantId;sessionStorage.setItem('2ho_pilot_lead',id);}return id;}catch{return participantId;}})();
 const attribution=(()=>{try{const saved=sessionStorage.getItem('2ho_pilot_source');if(saved)return JSON.parse(saved);const p=new URLSearchParams(location.search),source=window.PILOT_ATTRIBUTION?.source||p.get('utm_source')||'directo_desconocido';const a={source:['instagram','grupo_emprendedores','otro'].includes(source)?source:'directo_desconocido',medium:window.PILOT_ATTRIBUTION?.medium||p.get('utm_medium')||'sin_etiqueta',campaign:window.PILOT_ATTRIBUTION?.campaign||p.get('utm_campaign')||'sin_etiqueta'};sessionStorage.setItem('2ho_pilot_source',JSON.stringify(a));return a;}catch{return {source:'directo_desconocido'};}})();
 function serverCall(action,payload){
@@ -1115,6 +1187,9 @@ function serverCall(action,payload){
   });
 }
 function ensureCloudStart(){if(!cloudConnected)return Promise.resolve({ok:false});if(!cloudStart)cloudStart=serverCall('beginLead',{leadId,...attribution}).then(r=>{if(!r?.ok)throw new Error('No se pudo registrar el inicio. Reintenta en unos momentos.');return r;}).catch(e=>{cloudStart=null;throw e;});return cloudStart;}
+function ensureCloudStartExp4(){if(!cloudConnected)return Promise.resolve({ok:false});if(!cloudStartExp4)cloudStartExp4=serverCall('beginLeadExp4',{leadId,...attribution}).catch(e=>{cloudStartExp4=null;throw e;});return cloudStartExp4;}
+function pingStepExp4(){ if(cloudConnected) serverCall('pingStepExp4',{leadId,step:step+1}).catch(()=>{}); }
+function trackExp4(event, properties = {}){ track(event, properties); }
 
 /* ---------- Confeti al completar (fun!) ---------- */
 function burstConfetti(target){
@@ -1143,38 +1218,53 @@ function showActivation(kind, summaryText){
   if(kind === 'call'){
     $('#activation-title').textContent = cloudConnected ? 'Tu solicitud de llamada llegó al equipo.' : 'Tu solicitud de llamada está preparada.';
     $('#send-status').textContent = cloudConnected ? 'Te escribiremos para confirmar el horario. El horario propuesto todavía no es una reserva.' : 'Modo local: todavía no enviamos tu solicitud. Escríbenos por WhatsApp para coordinar el horario.';
-    $('#activation-status').hidden = true;
     $('#activation-note').textContent = 'El equipo confirmará disponibilidad antes de llamarte. Esta solicitud no genera tu web automáticamente.';
-    $('#download-brief').hidden = true;
   } else {
-    $('#activation-status').hidden = false;
-    $('#download-brief').hidden = false;
-    $('#activation-title').textContent = cloudConnected ? 'Tu brief llegó al equipo.' : 'Tu brief está preparado.';
-    $('#send-status').textContent = cloudConnected ? 'Brief enviado a 2H.O. También enviamos una copia a tu correo. El equipo preparará la vista previa; no se genera aquí.' : 'Modo local: todavía no enviamos tu brief. Descárgalo o compártelo con el equipo por WhatsApp para continuar. La vista previa se prepara después.';
-    $('#status-preview').textContent = 'Vista previa pendiente: el equipo revisará tu información.';
-    $('#status-delivery').textContent = cloudConnected ? 'Meta de primera propuesta: 24–48 horas.' : 'El plazo de preparación se coordina cuando el equipo reciba tu brief.';
-    $('#activation-note').textContent = 'Tu página no se genera al enviar este formulario. El equipo revisa tu brief y prepara la primera vista previa en 24–48 horas como meta del piloto.';
+    $('#activation-title').textContent = cloudConnected ? '¡Tu 15% de descuento quedó reservado!' : 'Tu brief está preparado.';
+    $('#send-status').textContent = cloudConnected ? 'Recibimos tu brief. Te contactaremos para armar tu primer prototipo y presentártelo en una sesión en vivo de 2 horas online.' : 'Modo local: todavía no enviamos tu brief. Escríbenos por WhatsApp para continuar.';
+    $('#activation-note').textContent = 'Tu 15% de descuento queda reservado. En esa sesión avanzamos y cerramos el proyecto para que en 48 horas recibas tu página lista.';
   }
   $('#activation').focus();
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo.'));
+    reader.readAsDataURL(file);
+  });
 }
 
 form.addEventListener('submit',async e=>{
  e.preventDefault();start();if(!validate())return;if(step<panels.length-1){step++;showStep();return;}if(completed||sending)return;
  const answers=Object.fromEntries(new FormData(form));
- if(answers.reference==='Otro') answers.reference=(answers.reference_other||'').trim()||'Otro (sin especificar)';
- if(answers.style==='Otro') answers.style=(answers.style_other||'').trim()||'Otro (sin especificar)';
- if(answers.audience==='Otro') answers.audience=(answers.audience_other||'').trim()||'Otro (sin especificar)';
- const readyKeys=['readyMarketing','readySocial','readyContent','readyNone'];
- const readyValues=readyKeys.map(k=>answers[k]).filter(Boolean);
- answers.assets=readyValues.length?readyValues.join(', '):'No indicado';
- delete answers.reference_other; delete answers.style_other; delete answers.audience_other;
- readyKeys.forEach(k=>delete answers[k]);
+ if(answers.category==='Otro') answers.category=(answers.category_other||'').trim()||'Otro (sin especificar)';
+ delete answers.category_other;
+ delete answers.brandManualFile;
+ const brandFile = $('#brandManualFile').files[0];
+ if(brandFile && brandFile.size > 0){
+   if(brandFile.size > 8*1024*1024){ $('#error').textContent = 'El archivo supera 8MB. Comparte un link en su lugar.'; return; }
+   try{
+     answers.brandManualFileName = brandFile.name;
+     answers.brandManualFileType = brandFile.type || 'application/octet-stream';
+     answers.brandManualFileData = await fileToBase64(brandFile);
+   }catch(error){ $('#error').textContent = error.message; return; }
+ }
  let result=null;
- if(cloudConnected){sending=true;$('#next').disabled=true;$('#error').textContent='Enviando tu brief…';try{await ensureCloudStart();const goals={Digitalizar:'Mostrar servicios o catálogo',Captar:'Recibir consultas',Automatizar:'Organizar el primer contacto',Validar:'Recoger interés'};result=await serverCall('submitLead',{kind:'brief',requestId:leadId+'-brief',leadId,consent:$('#consent').checked,values:{...answers,goal:goals[answers.need]}});if(!result?.ok)throw new Error(result?.message||'No se pudo confirmar el envío.');}catch(error){$('#error').textContent=error.message;return;}finally{sending=false;$('#next').disabled=false;}}
- completed=true;track('brief_completed',{need:answers.need,elapsed_ms:Date.now()-startedAt});
- showActivation('brief', answers.business+' · Ruta '+answers.need);
+ if(cloudConnected){sending=true;$('#next').disabled=true;$('#error').textContent='Enviando tu brief…';try{await ensureCloudStartExp4();result=await serverCall('submitLeadExp4',{leadId,requestId:leadId+'-exp4',consent:$('#consent').checked,values:answers});if(!result?.ok)throw new Error(result?.message||'No se pudo confirmar el envío.');}catch(error){$('#error').textContent=error.message;return;}finally{sending=false;$('#next').disabled=false;}}
+ completed=true;track('brief_completed',{category:answers.category,elapsed_ms:Date.now()-startedAt});
+ if(typeof fbq==='function') fbq('track','Lead');
+ showActivation('brief', answers.business+' · '+answers.category);
  try{sessionStorage.removeItem(DRAFT_KEY);}catch{}
 });
+
+/* ---------- Alternar entre formulario y llamada guiada ---------- */
+$$('[data-open-call], #open-call-from-form').forEach(el => el.addEventListener('click', e => {
+  e.preventDefault(); start(); openPopup();
+  $('#form-area').hidden = true; $('#call-area').hidden = false;
+}));
+$('#back-to-form').addEventListener('click', () => { $('#call-area').hidden = true; $('#form-area').hidden = false; });
 
 /* ---------- Call scheduling form ---------- */
 const callForm = $('#call-form');
@@ -1194,68 +1284,21 @@ callForm.addEventListener('submit', async e => {
     finally{ callSending = false; $('#call-submit').disabled = false; }
   }
   completed = true; track('call_requested', { elapsed_ms: Date.now() - startedAt });
+  if(typeof fbq==='function') fbq('track','Lead');
   showActivation('call', answers.business+' · Llamada con '+answers.person);
 });
 
 if(cloudConnected){
-  $('#privacy-copy').textContent='Al confirmar el brief o la solicitud de llamada, Google Apps Script envía tus respuestas a 2horas.online01@gmail.com y una copia a tu correo. El inicio y los hitos del piloto se registran en una hoja privada del equipo. El borrador de negocio se conserva solo en esta pestaña. Puedes consultar sobre tus datos escribiendo al correo del equipo.';
+  $('#privacy-copy').textContent='Al confirmar el brief o la solicitud de llamada, tus respuestas se envían al backend de Apps Script de 2H.O y a 2horas.online01@gmail.com. El inicio y el avance del formulario se registran en una hoja privada del equipo. El borrador de negocio se conserva solo en esta pestaña.';
 }else{
   $('#consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi brief, pero no lo envía automáticamente. *';
   $('#call-consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi solicitud, pero no la envía automáticamente. *';
-  $('#privacy-copy').textContent='En este archivo local no se envían tus datos a servidores. El borrador de negocio se guarda en esta pestaña, sin datos de contacto. El envío automático se activa al configurar CONFIG.appsScriptUrl con la URL del backend de Apps Script, según la guía entregada.';
+  $('#privacy-copy').textContent='En este archivo local no se envían tus datos a servidores. El borrador de negocio se guarda en esta pestaña. El envío automático se activa al configurar CONFIG.appsScriptUrl con la URL del backend de Apps Script, según la guía entregada.';
 }
-
-/* ---------- Download brief ---------- */
-$('#download-brief').addEventListener('click', () => {
-  const data = new FormData(form);
-  const lines = [
-    'Brief — 2H.O', '',
-    `Negocio: ${data.get('business')}`,
-    `Oferta: ${data.get('offer')}`,
-    `Objetivo: ${data.get('need')}`,
-    `Nombre: ${data.get('person')}`,
-    `Correo: ${data.get('email')}`,
-    `WhatsApp: ${data.get('phone') || '—'}`,
-  ];
-  const blob = new Blob([lines.join('\n')], { type:'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'brief-2ho.txt';
-  document.body.append(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  track('brief_downloaded');
-});
 
 /* ---------- Privacy dialog ---------- */
 $('#privacy-open').addEventListener('click', () => $('#privacy').showModal());
 $('#privacy-close').addEventListener('click', () => $('#privacy').close());
-
-/* ---------- Choice help popovers (crema opaca, alto contraste) ---------- */
-const tips={
-  Digitalizar:['Tu oferta en un lugar propio','Una web para mostrar servicios, catálogo, horarios y contacto.','Ejemplo: un restaurante que reúne su menú y ubicación.'],
-  Captar:['Convierte visitas en consultas','Una landing con una oferta clara y un botón para cotizar o contactar.','Ejemplo: recibir consultas de una campaña de Instagram.'],
-  Automatizar:['Organiza el primer contacto','Centraliza preguntas frecuentes y recibe consultas mediante un formulario sencillo.','No incluye bots avanzados, CRM ni procesos a medida.'],
-  Validar:['Prueba el interés por tu idea','Una página de prelanzamiento que explica la propuesta y recoge interesados.','Ejemplo: una lista de espera antes de lanzar un servicio.']
-};
-$$('.choice:not(.other)').forEach((choice,i)=>{
-  const input=choice.querySelector('input');
-  if(!tips[input.value]) return;
-  const scrim=document.createElement('span');
-  scrim.className='tip-scrim';scrim.setAttribute('aria-hidden','true');
-  const tip=document.createElement('span');
-  tip.className='choice-tip';tip.id='need-help-'+i;tip.setAttribute('role','dialog');tip.setAttribute('aria-modal','true');
-  tip.innerHTML='<button type="button" class="tip-close" aria-label="Cerrar">&times;</button><strong>'+tips[input.value][0]+'</strong>'+tips[input.value][1]+'<small>'+tips[input.value][2]+'</small>';
-  input.setAttribute('aria-describedby',tip.id);
-  const info=document.createElement('button');
-  info.type='button';info.className='info-toggle';info.textContent='i';
-  info.setAttribute('aria-label','Qué significa '+input.value);info.setAttribute('aria-controls',tip.id);info.setAttribute('aria-expanded','false');
-  const closeTip=()=>{choice.classList.remove('tip-open');info.setAttribute('aria-expanded','false');};
-  info.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();choice.classList.add('tip-open');info.setAttribute('aria-expanded','true');});
-  scrim.addEventListener('click',closeTip);
-  tip.querySelector('.tip-close').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeTip();});
-  choice.append(scrim,info,tip);
-});
-addEventListener('keydown',e=>{if(e.key==='Escape')$$('.choice.tip-open').forEach(c=>{c.classList.remove('tip-open');c.querySelector('.info-toggle')?.setAttribute('aria-expanded','false');});});
 
 /* ---------- Instagram embed panel ---------- */
 let igUrl='',localVideo=null;
