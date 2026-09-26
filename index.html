@@ -798,10 +798,13 @@ dialog .btn{margin-top:16px}
       </fieldset>
 
       <fieldset data-step="6" hidden>
-        <legend tabindex="-1">¿A qué WhatsApp enviamos tu vista previa?</legend>
-        <p class="example">Ejemplo: <b>300 123 4567</b></p>
+        <legend tabindex="-1">¿Cómo te contactamos?</legend>
+        <p class="example">Ejemplo: <b>maria@negocio.com</b></p>
+        <label class="field" for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" required maxlength="150" autocomplete="email" placeholder="tu@correo.com">
+        <label class="field" for="phone">WhatsApp</label>
         <input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel" placeholder="300 123 4567">
-        <label class="check"><input id="consent" type="checkbox" required><span>Acepto que 2H.O me contacte por WhatsApp para enviarme mi vista previa. *</span></label>
+        <label class="check"><input id="consent" type="checkbox" required><span>Acepto que 2H.O me contacte por correo y WhatsApp para enviarme mi vista previa. *</span></label>
       </fieldset>
 
       <fieldset data-step="7" hidden>
@@ -1216,7 +1219,7 @@ function showActivation(kind, summaryText){
     $('#activation-note').textContent = 'El equipo confirmará disponibilidad antes de llamarte. Esta solicitud no genera tu web automáticamente.';
   } else {
     $('#activation-title').textContent = cloudConnected ? '¡Tu 15% de descuento quedó reservado!' : 'Tu brief está preparado.';
-    $('#send-status').textContent = cloudConnected ? 'Recibimos tu brief. Te contactaremos para armar tu primer prototipo y presentártelo en una sesión en vivo de 2 horas online.' : 'Modo local: todavía no enviamos tu brief. Escríbenos por WhatsApp para continuar.';
+    $('#send-status').textContent = cloudConnected ? 'Recibimos tu brief y te enviamos una copia a tu correo. Te contactaremos para armar tu primer prototipo y presentártelo en una sesión en vivo de 2 horas online.' : 'Modo local: todavía no enviamos tu brief. Escríbenos por WhatsApp para continuar.';
     $('#activation-note').textContent = 'Tu 15% de descuento queda reservado. En esa sesión avanzamos y cerramos el proyecto para que en 48 horas recibas tu página lista.';
   }
   $('#activation').focus();
@@ -1284,7 +1287,7 @@ callForm.addEventListener('submit', async e => {
 });
 
 if(cloudConnected){
-  $('#privacy-copy').textContent='Al confirmar el brief o la solicitud de llamada, tus respuestas se envían al backend de Apps Script de 2H.O y a 2horas.online01@gmail.com. El inicio y el avance del formulario se registran en una hoja privada del equipo. El borrador de negocio se conserva solo en esta pestaña.';
+  $('#privacy-copy').textContent='Al confirmar el brief o la solicitud de llamada, tus respuestas se envían al backend de Apps Script de 2H.O, a 2horas.online01@gmail.com y una copia a tu correo. El inicio y el avance del formulario se registran en una hoja privada del equipo. El borrador de negocio se conserva solo en esta pestaña.';
 }else{
   $('#consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi brief, pero no lo envía automáticamente. *';
   $('#call-consent').nextElementSibling.textContent='Entiendo que este archivo local prepara mi solicitud, pero no la envía automáticamente. *';

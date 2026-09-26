@@ -130,7 +130,7 @@ function submitLead(payload) {
 /* ================= Experimento 4 — Formulario v2 (popup, 15% dto.) ================= */
 
 const EXP4_SHEET_NAME = 'Exp4_Seguimiento';
-const EXP4_HEADERS = ['lead_id','inicio_utc','fuente','medio','campana','ultima_pregunta_vista','completo','negocio','descripcion_negocio','categoria','objetivo_principal','red_social_o_maps','manual_marca','manual_marca_archivo','whatsapp','claridad_formulario','fecha_completado_utc','brief_util','fecha_envio_vista_previa','notas'];
+const EXP4_HEADERS = ['lead_id','inicio_utc','fuente','medio','campana','ultima_pregunta_vista','completo','negocio','descripcion_negocio','categoria','objetivo_principal','red_social_o_maps','manual_marca','manual_marca_archivo','whatsapp','claridad_formulario','fecha_completado_utc','brief_util','fecha_envio_vista_previa','notas','correo'];
 
 function getExp4Sheet_(){
   return getSheetByName_(EXP4_SHEET_NAME, EXP4_HEADERS);
@@ -201,15 +201,16 @@ function submitLeadExp4(payload){
     if (payload.consent !== true || !/^[a-zA-Z0-9-]{6,100}$/.test(payload.requestId || ''))
       return { ok: false, message: 'Solicitud inválida. Revisa el formulario.' };
     const v = payload.values || {};
-    const limits = { business: 100, businessDescription: 400, category: 60, objective: 80, socialLink: 200, brandManual: 60, brandManualLink: 300, phone: 25, clarity: 2 };
+    const limits = { business: 100, businessDescription: 400, category: 60, objective: 80, socialLink: 200, brandManual: 60, brandManualLink: 300, phone: 25, email: 150, clarity: 2 };
     const clean = {};
     for (const key in limits) {
       if (v[key] !== undefined && typeof v[key] !== 'string') return { ok: false, message: 'Formato no válido.' };
       clean[key] = String(v[key] || '').trim().slice(0, limits[key]);
     }
-    const required = ['business', 'businessDescription', 'category', 'objective', 'brandManual', 'phone'];
+    const required = ['business', 'businessDescription', 'category', 'objective', 'brandManual', 'phone', 'email'];
     for (const key of required) { if (!clean[key]) return { ok: false, message: 'Completa los campos obligatorios.' }; }
     if (!/^\+?[0-9\s-]{7,25}$/.test(clean.phone)) return { ok: false, message: 'Introduce un WhatsApp válido.' };
+    if (!isValidEmail_(clean.email)) return { ok: false, message: 'Revisa el correo ingresado, no parece válido.' };
 
     // Evita procesar dos veces la misma solicitud (reintentos de red).
     const cache = CacheService.getScriptCache();
@@ -252,11 +253,13 @@ function submitLeadExp4(payload){
     sheet.getRange(r, idx.manual_marca + 1).setValue(clean.brandManual);
     sheet.getRange(r, idx.manual_marca_archivo + 1).setValue(manualNote);
     sheet.getRange(r, idx.whatsapp + 1).setValue(clean.phone);
+    sheet.getRange(r, idx.correo + 1).setValue(clean.email);
     sheet.getRange(r, idx.claridad_formulario + 1).setValue(clean.clarity || '');
     sheet.getRange(r, idx.completo + 1).setValue('si');
     sheet.getRange(r, idx.fecha_completado_utc + 1).setValue(new Date().toISOString());
 
     sendExp4TeamNotification_(clean, manualNote, payload.requestId, attachments);
+    sendExp4ClientConfirmation_(clean, manualNote, payload.requestId);
     if (requestId) cache.put(cacheKey, '1', 21600); // 6 horas
     return { ok: true };
   } catch (err) {
@@ -266,7 +269,7 @@ function submitLeadExp4(payload){
 }
 
 function sendExp4TeamNotification_(clean, manualNote, requestId, attachments){
-  const labels = { business: 'Negocio', businessDescription: 'Qué hace el negocio', category: 'Categoría', objective: 'Objetivo principal', socialLink: 'Instagram / Facebook / Maps', phone: 'WhatsApp', clarity: 'Claridad del formulario (1-5)' };
+  const labels = { business: 'Negocio', businessDescription: 'Qué hace el negocio', category: 'Categoría', objective: 'Objetivo principal', socialLink: 'Instagram / Facebook / Maps', phone: 'WhatsApp', email: 'Correo', clarity: 'Claridad del formulario (1-5)' };
   const rows = Object.keys(labels).map(function(key){ return [labels[key], clean[key] || 'No indicado']; });
   rows.push(['Manual de marca', manualNote]);
   const bodyRows = rows
@@ -281,6 +284,37 @@ function sendExp4TeamNotification_(clean, manualNote, requestId, attachments){
   const mailOptions = { to: TEAM_EMAIL, subject: 'Nuevo brief (Exp. 4 — 15% dto.) — 2HO', htmlBody: html, name: '2HO · Experimento 4' };
   if (attachments && attachments.length) mailOptions.attachments = attachments;
   MailApp.sendEmail(mailOptions);
+}
+
+function sendExp4ClientConfirmation_(clean, manualNote, requestId){
+  const summaryRows = [
+    ['Negocio', clean.business],
+    ['Qué hace el negocio', clean.businessDescription],
+    ['Categoría', clean.category],
+    ['Objetivo principal', clean.objective],
+    ['Instagram / Facebook / Maps', clean.socialLink],
+    ['Manual de marca', manualNote],
+    ['WhatsApp', clean.phone]
+  ];
+  const summaryHtml = summaryTable_(summaryRows);
+  const whatsappText = 'Hola, 2HO. Acabo de enviar mi brief y quiero conversar sobre mi web.';
+
+  const body =
+    '<p style="margin:0 0 16px">¡Gracias por completar tu brief! Este es el resumen que le llegó a nuestro equipo:</p>' +
+    summaryHtml +
+    '<p style="margin:24px 0 8px;font-weight:700;font-size:16px">¿Qué sigue?</p>' +
+    '<p style="margin:0 0 16px">Te contactaremos para armar tu primer prototipo y presentártelo en una sesión en vivo de <strong>2 horas online</strong>. Desde ahí avanzamos y cerramos el proyecto para que en <strong>48 horas</strong> recibas tu página lista. Tu <strong>15% de descuento</strong> queda reservado.</p>' +
+    '<p style="margin:0 0 20px">¿Tienes una duda puntual antes de eso? Escríbenos por WhatsApp cuando quieras:</p>' +
+    ctaButton_(waHref_(whatsappText), 'Hablar por WhatsApp') +
+    '<p style="margin:24px 0 0;font-size:13px;color:#6b6f5c">Referencia: ' + escapeHtml_(requestId) + '</p>';
+
+  MailApp.sendEmail({
+    to: clean.email,
+    subject: 'Recibimos tu brief — 2HO',
+    htmlBody: emailShell_('Tu brief llegó a 2H.O', body),
+    name: '2HO',
+    replyTo: TEAM_EMAIL
+  });
 }
 
 /* ================= Sheet helpers ================= */
@@ -310,6 +344,14 @@ function getSheetByName_(name, headers) {
     sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
     const blank = ss.getSheets().find(s => s.getName() !== name && s.getLastRow() === 0 && s.getLastColumn() <= 1);
     if (blank) ss.deleteSheet(blank);
+  } else {
+    // Migración segura: si se agregan columnas nuevas al final de `headers`,
+    // se completan sin tocar ni reordenar las columnas ya existentes.
+    const existingCount = sheet.getLastColumn();
+    if (existingCount < headers.length) {
+      sheet.getRange(1, existingCount + 1, 1, headers.length - existingCount)
+        .setValues([headers.slice(existingCount)]);
+    }
   }
   return sheet;
 }
